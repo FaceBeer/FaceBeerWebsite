@@ -3,28 +3,31 @@ import {
   createTheme,
   makeStyles,
   ThemeProvider,
+  responsiveFontSizes,
 } from "@material-ui/core/styles";
 import { CssBaseline, Typography } from "@material-ui/core";
 
 import Leaderboard from "../leaderboard/Leaderboard";
-import { Box, Paper } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 
-const theme = createTheme({
-  palette: {
-    text: {
-      primary: "#ffffff",
+const theme = responsiveFontSizes(
+  createTheme({
+    palette: {
+      text: {
+        primary: "#ffffff",
+      },
+      primary: {
+        main: "#ffffff",
+      },
+      background: {
+        default: "#3a60f1",
+      },
+      secondary: {
+        main: "#8aa0f1",
+      },
     },
-    primary: {
-      main: "#ffffff",
-    },
-    background: {
-      default: "#3a60f1",
-    },
-    secondary: {
-      main: "#8aa0f1",
-    },
-  },
-});
+  })
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,24 +47,34 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
-        <Typography className={classes.title} variant={"h1"} color={"primary"}>
-          FaceBeer
-        </Typography>
+        <Grid container padding={"1%"}>
+          <Grid item xs={3}>
+            <Box
+              component="img"
+              sx={{
+                height: "100%",
+                width: "100%",
+                // left: 0
+              }}
+              alt="FaceBeer logo"
+              src={require("./facebeer.jpg")}
+            />
+          </Grid>
+          <Grid item xs={9}>
+            <Typography
+              className={classes.title}
+              variant={"h1"}
+              color={"primary"}
+              style={{ paddingTop: "7%", flexShrink: 1 }}
+            >
+              FaceBeer
+            </Typography>
+          </Grid>
+        </Grid>
 
         <Leaderboard />
       </div>
-      <Box
-        component="img"
-        sx={{
-          height: 300,
-          width: 300,
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-        }}
-        alt="FaceBeer logo"
-        src={require("./facebeer.jpg")}
-      />
+
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
