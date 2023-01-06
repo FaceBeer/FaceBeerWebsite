@@ -8,7 +8,7 @@ import {
 import { CssBaseline, Typography } from "@material-ui/core";
 
 import Leaderboard from "../leaderboard/Leaderboard";
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 const theme = responsiveFontSizes(
   createTheme({
@@ -47,39 +47,30 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
-        <div style={{padding:"2%", position:"relative"}}>
+        <div style={{ padding: "2%", position: "relative" }}>
           <Box
-              component="img"
-              sx={{
-                height: "100%",
-                aspectRatio: 1,
-                maxHeight: 200,
-                position:"absolute",
-                left: 0,
-                top: 0,
-                padding:"1%"
-              }}
-              alt="FaceBeer logo"
-              src={require("./facebeer.jpg")}
+            component="img"
+            sx={{
+              height: "100%",
+              aspectRatio: 1,
+              maxHeight: 200,
+              position: "absolute",
+              left: 0,
+              top: 0,
+              padding: "1%",
+            }}
+            alt="FaceBeer logo"
+            src={require("./facebeer.jpg")}
           />
           <Typography
-              className={classes.title}
-              variant={"h1"}
-              color={"primary"}
-              // style={{ }}
+            className={classes.title}
+            variant={"h1"}
+            color={"primary"}
+            // style={{ }}
           >
             FaceBeer
           </Typography>
         </div>
-        {/*<Grid container padding={"1%"}>*/}
-        {/*  <Grid item xs={3}>*/}
-
-        {/*  </Grid>*/}
-        {/*  <Grid item xs={9}>*/}
-        {/*    */}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
-
         <Leaderboard />
       </div>
 

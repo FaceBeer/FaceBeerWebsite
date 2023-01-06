@@ -195,10 +195,7 @@ function Leaderboard(): ReactElement {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
-          <Table
-            aria-labelledby="tableTitle"
-            size={"medium"}
-          >
+          <Table aria-labelledby="tableTitle" size={"medium"}>
             <LeaderboardHead
               order={order}
               orderBy={orderBy}
