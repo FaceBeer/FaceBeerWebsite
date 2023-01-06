@@ -7,7 +7,7 @@ import {
 import { CssBaseline, Typography } from "@material-ui/core";
 
 import Leaderboard from "../leaderboard/Leaderboard";
-import { BottomNavigation, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 
 const theme = createTheme({
   palette: {
