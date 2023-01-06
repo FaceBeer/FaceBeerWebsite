@@ -196,7 +196,6 @@ function Leaderboard(): ReactElement {
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
