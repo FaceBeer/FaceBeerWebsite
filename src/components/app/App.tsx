@@ -54,6 +54,8 @@ function App() {
               sx={{
                 height: "100%",
                 width: "100%",
+                maxHeight: 200,
+                maxWidth:200,
                 // left: 0
               }}
               alt="FaceBeer logo"
@@ -65,7 +67,7 @@ function App() {
               className={classes.title}
               variant={"h1"}
               color={"primary"}
-              style={{ paddingTop: "7%", flexShrink: 1 }}
+              style={{ paddingTop: "2%", flexShrink: 1 }}
             >
               FaceBeer
             </Typography>
