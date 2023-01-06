@@ -55,6 +55,9 @@ function App() {
         sx={{
           height: 300,
           width: 300,
+          position: "fixed",
+          bottom: 0,
+          left: 0,
         }}
         alt="FaceBeer logo"
         src={require("./facebeer.jpg")}
