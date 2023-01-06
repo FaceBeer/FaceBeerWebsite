@@ -7,7 +7,7 @@ import {
 import { CssBaseline, Typography } from "@material-ui/core";
 
 import Leaderboard from "../leaderboard/Leaderboard";
-import { Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -47,8 +47,18 @@ function App() {
         <Typography className={classes.title} variant={"h1"} color={"primary"}>
           FaceBeer
         </Typography>
+
         <Leaderboard />
       </div>
+      <Box
+        component="img"
+        sx={{
+          height: 300,
+          width: 300,
+        }}
+        alt="FaceBeer logo"
+        src={require("./facebeer.jpg")}
+      />
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
