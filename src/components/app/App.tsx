@@ -47,32 +47,38 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
-        <Grid container padding={"1%"}>
-          <Grid item xs={3}>
-            <Box
+        <div style={{padding:"2%", position:"relative"}}>
+          <Box
               component="img"
               sx={{
                 height: "100%",
-                width: "100%",
+                aspectRatio: 1,
                 maxHeight: 200,
-                maxWidth:200,
-                // left: 0
+                position:"absolute",
+                left: 0,
+                top: 0,
+                padding:"1%"
               }}
               alt="FaceBeer logo"
               src={require("./facebeer.jpg")}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <Typography
+          />
+          <Typography
               className={classes.title}
               variant={"h1"}
               color={"primary"}
-              style={{ paddingTop: "2%", flexShrink: 1 }}
-            >
-              FaceBeer
-            </Typography>
-          </Grid>
-        </Grid>
+              // style={{ }}
+          >
+            FaceBeer
+          </Typography>
+        </div>
+        {/*<Grid container padding={"1%"}>*/}
+        {/*  <Grid item xs={3}>*/}
+
+        {/*  </Grid>*/}
+        {/*  <Grid item xs={9}>*/}
+        {/*    */}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
 
         <Leaderboard />
       </div>
