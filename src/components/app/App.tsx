@@ -48,25 +48,11 @@ function App() {
       <div className={classes.root}>
         <CssBaseline />
         <div style={{ padding: "2%", position: "relative" }}>
-          <Box
-            component="img"
-            sx={{
-              height: "100%",
-              aspectRatio: 1,
-              maxHeight: 200,
-              position: "absolute",
-              left: 0,
-              top: 0,
-              padding: "1%",
-            }}
-            alt="FaceBeer logo"
-            src={require("./facebeer.jpg")}
-          />
           <Typography
             className={classes.title}
             variant={"h1"}
             color={"primary"}
-            // style={{ }}
+            style={{ zIndex: 6 }}
           >
             FaceBeer
           </Typography>
