@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Aidan",
+    "bac": 0.2,
+    "timestamp": "2023-01-10"
+  },
+  {
+    "name": "Grant",
+    "bac": 0.25,
+    "timestamp": "2023-01-11"
+  },
+  {
+    "name": "Emre",
+    "bac": 0.3,
+    "timestamp": "2023-01-12"
+  },
+  {
+    "name": "Grant",
+    "bac": 0.15,
+    "timestamp": "2023-01-13"
+  }
+]
