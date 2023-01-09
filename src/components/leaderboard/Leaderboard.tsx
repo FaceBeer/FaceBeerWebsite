@@ -15,8 +15,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { visuallyHidden } from "@mui/utils";
 
-import testdata from "./data.json";
-
 interface Data {
   name: string;
   bac: number;
@@ -175,9 +173,6 @@ function Leaderboard(): ReactElement {
   const [orderBy, setOrderBy] = React.useState<keyof Data>("timestamp");
   const [rows, setRows] = React.useState<Data[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  // const rows = testdata.map((row) => {
-  //   return createData(row.name, row.bac, new Date(row.timestamp));
-  // });
   const base_url = "http://3.86.249.253:8000";
 
   useEffect(() => {
