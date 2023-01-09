@@ -52,7 +52,7 @@ function App() {
             className={classes.title}
             variant={"h1"}
             color={"primary"}
-            // style={{ }}
+            style={{ zIndex: 6 }}
           >
             FaceBeer
           </Typography>
