@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -10,6 +10,8 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
+
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { visuallyHidden } from "@mui/utils";
 
@@ -28,13 +30,6 @@ function createData(name: string, bac: number, timestamp: Date): Data {
     timestamp,
   };
 }
-
-// const rows: Data[] = [
-//     createData('Grant', .2, new Date("2023-01-10")),
-//     createData('Emre', .25, new Date("2023-01-10")),
-//     createData('Grant', .3, new Date("2023-01-11")),
-//     createData('Emre', .15, new Date("2023-01-12")),
-// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -178,9 +173,31 @@ function sortRows(rows: Data[], order: Order, orderBy: keyof Data) {
 function Leaderboard(): ReactElement {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("timestamp");
-  const rows = testdata.map((row) => {
-    return createData(row.name, row.bac, new Date(row.timestamp));
-  });
+  const [rows, setRows] = React.useState<Data[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  // const rows = testdata.map((row) => {
+  //   return createData(row.name, row.bac, new Date(row.timestamp));
+  // });
+  const base_url = "http://3.86.249.253:8000";
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    setLoading(true);
+    console.log("Requested server!");
+    fetch(`${base_url}/get_leaderboard`)
+      .then((response) => response.json())
+      .then((data) => {
+        setRows(
+          data["message"].map((row: Data) => {
+            return createData(row.name, row.bac, new Date(row.timestamp));
+          })
+        );
+        setLoading(false);
+      });
+  };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -192,20 +209,28 @@ function Leaderboard(): ReactElement {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table aria-labelledby="tableTitle" size={"medium"}>
-            <LeaderboardHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
-            <TableBody>{sortRows(rows, order, orderBy)}</TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
+    <>
+      {loading ? (
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box sx={{ width: "100%" }}>
+          <Paper sx={{ width: "100%", mb: 2 }}>
+            <TableContainer>
+              <Table aria-labelledby="tableTitle" size={"medium"}>
+                <LeaderboardHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
+                <TableBody>{sortRows(rows, order, orderBy)}</TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Box>
+      )}
+    </>
   );
 }
 
