@@ -8,7 +8,7 @@ import {
 import { CssBaseline, Typography } from "@material-ui/core";
 
 import Leaderboard from "../leaderboard/Leaderboard";
-import { Box, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 
 const theme = responsiveFontSizes(
   createTheme({
