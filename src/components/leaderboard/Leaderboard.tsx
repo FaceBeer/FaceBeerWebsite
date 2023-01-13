@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 
 import { visuallyHidden } from "@mui/utils";
+import { FormControlLabel, FormGroup, Switch } from "@material-ui/core";
 
 type Order = "asc" | "desc";
 
@@ -165,6 +166,7 @@ interface LeaderboardProps {
 function Leaderboard(props: LeaderboardProps): ReactElement {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("timestamp");
+  const [last12, setLast12] = React.useState<boolean>(false);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -177,14 +179,34 @@ function Leaderboard(props: LeaderboardProps): ReactElement {
 
   return (
     <Paper sx={{ width: "100%", mb: 2 }}>
+      <FormGroup style={{ float: "right" }}>
+        <FormControlLabel
+          control={<Switch checked={last12} />}
+          label="Last 12 hours"
+          onClick={() => setLast12(!last12)}
+          labelPlacement={"start"}
+        />
+      </FormGroup>
       <TableContainer>
-        <Table aria-labelledby="tableTitle" size={"medium"}>
+        <Table aria-labelledby="facebeertable" size={"medium"}>
           <LeaderboardHead
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
           />
-          <TableBody>{sortRows(props.rows, order, orderBy)}</TableBody>
+          <TableBody>
+            {sortRows(
+              props.rows.filter(
+                (row) =>
+                  !last12 ||
+                  Math.abs(new Date().getTime() - row.timestamp.getTime()) /
+                    (1000 * 60 * 60) <
+                    12
+              ),
+              order,
+              orderBy
+            )}
+          </TableBody>
         </Table>
       </TableContainer>
     </Paper>
