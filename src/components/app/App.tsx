@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   createTheme,
   makeStyles,
   ThemeProvider,
   responsiveFontSizes,
 } from "@material-ui/core/styles";
-import { CssBaseline, Typography } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
+import { Routes, Route, Link } from "react-router-dom";
 
-import Leaderboard from "../leaderboard/Leaderboard";
-import { Paper } from "@mui/material";
+import type { Data } from "../leaderboard/Leaderboard";
+import Copyright from "./Copyright";
+import Home from "../home/Home";
+import UserLeaderboardPage from "../leaderboard/UserLeaderboardPage";
+import AllUserLeaderboardPage from "../leaderboard/AllUserLeaderboardPage";
 
 const theme = responsiveFontSizes(
   createTheme({
@@ -43,33 +47,21 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
-        <div style={{ padding: "2%", position: "relative" }}>
-          <Typography
-            className={classes.title}
-            variant={"h1"}
-            color={"primary"}
-            style={{ zIndex: 6 }}
-          >
-            FaceBeer
-          </Typography>
-        </div>
-        <Leaderboard />
+        <Routes>
+          <Route path={"/"} element={<Home />} />
+          <Route path={"user/:name"} element={<UserLeaderboardPage />} />
+          <Route path={"all"} element={<AllUserLeaderboardPage />} />
+        </Routes>
       </div>
-
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <Typography variant={"body1"} align="center">
-          Copyright FaceBeer {new Date().getFullYear().toString()}
-        </Typography>
-      </Paper>
+      <Copyright />
     </ThemeProvider>
   );
 }
 
 export default App;
+export type { Data };

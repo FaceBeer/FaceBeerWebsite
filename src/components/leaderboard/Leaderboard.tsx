@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import {
   Box,
   Paper,
@@ -11,63 +11,14 @@ import {
   TableSortLabel,
 } from "@mui/material";
 
-import CircularProgress from "@mui/material/CircularProgress";
-
 import { visuallyHidden } from "@mui/utils";
+
+type Order = "asc" | "desc";
 
 interface Data {
   name: string;
   bac: number;
   timestamp: Date;
-}
-
-function createData(name: string, bac: number, timestamp: Date): Data {
-  return {
-    name,
-    bac,
-    timestamp,
-  };
-}
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function stableSort<Data>(
-  array: readonly Data[],
-  comparator: (a: Data, b: Data) => number
-) {
-  const stabilizedThis = array.map(
-    (el, index) => [el, index] as [Data, number]
-  );
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-type Order = "asc" | "desc";
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (
-  a: { [key in Key]: number | string | Date },
-  b: { [key in Key]: number | string | Date }
-) => number {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 interface HeadCell {
@@ -97,6 +48,45 @@ const headCells: readonly HeadCell[] = [
     label: "Date",
   },
 ];
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string | Date },
+  b: { [key in Key]: number | string | Date }
+) => number {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort<Data>(
+  array: readonly Data[],
+  comparator: (a: Data, b: Data) => number
+) {
+  const stabilizedThis = array.map(
+    (el, index) => [el, index] as [Data, number]
+  );
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 interface LeaderboardHeadProps {
   onRequestSort: (
@@ -168,31 +158,13 @@ function sortRows(rows: Data[], order: Order, orderBy: keyof Data) {
     });
 }
 
-function Leaderboard(): ReactElement {
+interface LeaderboardProps {
+  rows: Data[];
+}
+
+function Leaderboard(props: LeaderboardProps): ReactElement {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("timestamp");
-  const [rows, setRows] = React.useState<Data[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const base_url = "http://api.facebeer.net:8000";
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    setLoading(true);
-    console.log("Requested server!");
-    fetch(`${base_url}/get_leaderboard`)
-      .then((response) => response.json())
-      .then((data) => {
-        setRows(
-          data["message"].map((row: Data) => {
-            return createData(row.name, row.bac, new Date(row.timestamp));
-          })
-        );
-        setLoading(false);
-      });
-  };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -204,29 +176,20 @@ function Leaderboard(): ReactElement {
   };
 
   return (
-    <>
-      {loading ? (
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box sx={{ width: "100%" }}>
-          <Paper sx={{ width: "100%", mb: 2 }}>
-            <TableContainer>
-              <Table aria-labelledby="tableTitle" size={"medium"}>
-                <LeaderboardHead
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                />
-                <TableBody>{sortRows(rows, order, orderBy)}</TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Box>
-      )}
-    </>
+    <Paper sx={{ width: "100%", mb: 2 }}>
+      <TableContainer>
+        <Table aria-labelledby="tableTitle" size={"medium"}>
+          <LeaderboardHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+          />
+          <TableBody>{sortRows(props.rows, order, orderBy)}</TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 }
 
-export default Leaderboard;
+export type { Data };
+export { Leaderboard };
