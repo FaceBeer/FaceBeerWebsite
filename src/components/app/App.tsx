@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   createTheme,
   makeStyles,
@@ -6,19 +6,22 @@ import {
   responsiveFontSizes,
 } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import type { Data } from "../leaderboard/Leaderboard";
-import Copyright from "./Copyright";
+import Copyright from "../home/Copyright";
 import Home from "../home/Home";
 import UserLeaderboardPage from "../leaderboard/UserLeaderboardPage";
 import AllUserLeaderboardPage from "../leaderboard/AllUserLeaderboardPage";
+import Header from "../home/Header";
+import NotFound from "../home/NotFound";
 
 const theme = responsiveFontSizes(
   createTheme({
     palette: {
       text: {
-        primary: "#ffffff",
+        primary: "#000000",
+        secondary: "#ffffff",
       },
       primary: {
         main: "#ffffff",
@@ -27,7 +30,7 @@ const theme = responsiveFontSizes(
         default: "#3a60f1",
       },
       secondary: {
-        main: "#8aa0f1",
+        main: "#3a60f1",
       },
     },
   })
@@ -50,15 +53,19 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <Routes>
-          <Route path={"/"} element={<Home />} />
-          <Route path={"user/:name"} element={<UserLeaderboardPage />} />
-          <Route path={"all"} element={<AllUserLeaderboardPage />} />
-        </Routes>
+      <CssBaseline />
+      <div>
+        <Header />
+        <div className={classes.root}>
+          <Routes>
+            <Route path={"/"} element={<Home />} />
+            <Route path={"user/:name"} element={<UserLeaderboardPage />} />
+            <Route path={"user/"} element={<NotFound />} />
+            <Route path={"all"} element={<AllUserLeaderboardPage />} />
+          </Routes>
+        </div>
+        <Copyright />
       </div>
-      <Copyright />
     </ThemeProvider>
   );
 }

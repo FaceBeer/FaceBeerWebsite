@@ -29,6 +29,7 @@ function AllUserLeaderboardPage(): ReactElement {
         );
       });
   };
+
   return <Leaderboard rows={rows} />;
 }
 export default AllUserLeaderboardPage;

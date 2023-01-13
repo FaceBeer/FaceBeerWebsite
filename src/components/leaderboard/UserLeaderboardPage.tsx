@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect } from "react";
 import { Data, Leaderboard } from "./Leaderboard";
 import { useParams } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 function createData(name: string, bac: number, timestamp: Date): Data {
   return {
@@ -12,16 +13,19 @@ function createData(name: string, bac: number, timestamp: Date): Data {
 
 function LeaderboardPage(): ReactElement {
   const [rows, setRows] = React.useState<Data[]>([]);
-  const base_url = "http://api.facebeer.net:8000/user";
   const { name } = useParams();
+  const requestURL = `http://api.facebeer.net:8000/user/${name}`;
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (name !== undefined) {
+      fetchData(requestURL);
+    }
+  }, [name, requestURL]);
 
-  const fetchData = () => {
+  const fetchData = (url: string) => {
     console.log("Requested server!");
-    fetch(`${base_url}/${name}`)
+    console.log(url);
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         setRows(
@@ -32,7 +36,11 @@ function LeaderboardPage(): ReactElement {
       });
   };
 
-  return <Leaderboard rows={rows} />;
+  return rows.length > 0 ? (
+    <Leaderboard rows={rows} />
+  ) : (
+    <Typography>No data to display for this user. Try again.</Typography>
+  );
 }
 
 export default LeaderboardPage;
