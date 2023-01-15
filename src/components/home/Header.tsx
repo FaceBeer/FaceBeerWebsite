@@ -24,15 +24,11 @@ function Header(): ReactElement {
     <>
       <AppBar position={"static"} title={"FaceBeer"} color={"primary"}>
         <Toolbar>
-          <Link to={"/"}>
-            <Button color={"secondary"} className={classes.button}>
-              Home
-            </Button>
+          <Link to={"/"} className={classes.button}>
+            <Button color={"secondary"}>Home</Button>
           </Link>
-          <Link to={"all"}>
-            <Button color={"secondary"} className={classes.button}>
-              Everyone
-            </Button>
+          <Link to={"all"} className={classes.button}>
+            <Button color={"secondary"}>Everyone</Button>
           </Link>
         </Toolbar>
       </AppBar>
