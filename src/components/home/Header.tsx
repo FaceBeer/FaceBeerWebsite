@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: "2%",
   },
+  button: {
+    textDecoration: "none",
+  },
 }));
 function Header(): ReactElement {
   const classes = useStyles();
@@ -22,10 +25,14 @@ function Header(): ReactElement {
       <AppBar position={"static"} title={"FaceBeer"} color={"primary"}>
         <Toolbar>
           <Link to={"/"}>
-            <Button color={"secondary"}>Home</Button>
+            <Button color={"secondary"} className={classes.button}>
+              Home
+            </Button>
           </Link>
           <Link to={"all"}>
-            <Button color={"secondary"}>Everyone</Button>
+            <Button color={"secondary"} className={classes.button}>
+              Everyone
+            </Button>
           </Link>
         </Toolbar>
       </AppBar>

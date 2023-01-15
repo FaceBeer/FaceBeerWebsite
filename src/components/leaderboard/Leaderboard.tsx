@@ -164,7 +164,7 @@ interface LeaderboardProps {
 }
 
 function Leaderboard(props: LeaderboardProps): ReactElement {
-  const [order, setOrder] = React.useState<Order>("asc");
+  const [order, setOrder] = React.useState<Order>("desc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("timestamp");
   const [last12, setLast12] = React.useState<boolean>(false);
 
